@@ -16,7 +16,7 @@ serde = { version = "1.0.145", features = [ "derive" ] }
 thiserror = "1.0.37"
 tinytemplate = "1.2.1"
 toml = "0.5.9"
-toml_edit = "0.14.4"
+toml_edit = "0.15.0"
 
 [[bin]]
 name = "aoc"

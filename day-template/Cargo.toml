@@ -1,11 +1,11 @@
 [package]
 name = "{package_name}"
 version = "0.1.0"
-authors = ["Peter Goodspeed-Niklaus <peter.r.goodspeedniklaus@gmail.com>"]
+authors = ["Nicolas Riebesel <nicolas.riebesel@gmx.com>"]
 edition = "2021"
 
 [dependencies]
 aoclib = \{ git = "https://github.com/coriolinus/aoclib.git" }
-color-eyre = "0.5.10"
+color-eyre = "0.6.2"
 structopt = "0.3.21"
 thiserror = "1.0.22"

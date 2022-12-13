@@ -327,10 +327,14 @@ pub fn initialize_year(config: &mut Config, year: u32, path_opts: PathOpts) -> R
         // input files relative is a sub-directory of implementation dir
         // if not already present, add an appropriate ignore line
         if !input_files_relative.starts_with("..") {
-            use std::os::unix::ffi::OsStrExt;
-
+            // The .gitignore file needs to be valid UTF-8, so we can assume the path is always
+            // correct UTF-8
+            let mut input_files_relative = input_files_relative
+                .to_str()
+                .ok_or(Error::InputFolderInvalidUTF8)?
+                .as_bytes()
+                .to_vec();
             // add a trailing slash to narrow the gitignore rule to directories
-            let mut input_files_relative = input_files_relative.as_os_str().as_bytes().to_vec();
             input_files_relative.push(b'/');
             append_if_not_present(impl_path.join(".gitignore"), input_files_relative)?;
         }
@@ -357,6 +361,8 @@ pub enum Error {
     ParseToml(#[from] toml_edit::TomlError),
     #[error("Cargo.toml is malformed")]
     MalformedToml,
+    #[error("The inputs dir needs to have a valid utf8 name")]
+    InputFolderInvalidUTF8,
     #[error("failed to write updated Cargo.toml")]
     CargoTomlWrite(#[from] toml::ser::Error),
     #[error("template error for {1}")]
